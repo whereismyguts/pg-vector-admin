@@ -1,33 +1,92 @@
 # PostgreSQL Vector Database with Mathesar DB UI
 
-## Environment Variables
+A production-ready PostgreSQL vector database setup with pgvector extension and Mathesar web UI for managing vector tables and embeddings.
 
-This project uses environment variables to manage sensitive configuration data. This approach prevents committing secrets to version control.
+## Features
 
-### Setup Instructions:
+- PostgreSQL with pgvector extension for vector similarity search
+- Mathesar web UI for intuitive database management
+- Dockerized setup for easy deployment
+- Automated vector table creation utilities
+- Secure environment-based configuration
 
-1. Main PostgreSQL Vector Database:
-   - Copy `.env.example` to `.env` in the root directory
-   - Update the values in `.env` with your specific configuration
+## Tech Stack
 
-2. DB UI Component:
-   - Copy `db-ui/.env.example` to `db-ui/.env`
-   - Update the values in `db-ui/.env` with your specific configuration
+- PostgreSQL + pgvector
+- Mathesar DB UI
+- Docker & Docker Compose
+- SQL utilities for vector operations
 
+## Prerequisites
 
-## Create a new vector table in PostgreSQL
+- Docker and Docker Compose
+- PostgreSQL client tools (optional, for manual operations)
 
-1. edit `create_new_vector_table.sql` file to set the name of the new table and the number of dimensions:
+## Setup
+
+### 1. Configure Main PostgreSQL Vector Database
+
+Copy the example environment file and update with your configuration:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your PostgreSQL settings (host, port, credentials, database name).
+
+### 2. Configure Mathesar DB UI
+
+```bash
+cp db-ui/.env.example db-ui/.env
+```
+
+Edit `db-ui/.env` with your Mathesar-specific settings.
+
+### 3. Start Services
+
+```bash
+docker-compose up -d
+```
+
+## Usage
+
+### Creating a New Vector Table
+
+1. Edit `create_new_vector_table.sql` to specify the table name and vector dimensions:
 
 ```sql
-...
-
 SELECT create_new_vector_table('moto_vectors');
 ```
 
-2. run the following command to create a new vector table in PostgreSQL:
-
+2. Execute the SQL script:
 
 ```bash
-docker exec -i postgres_vector_db psql -U postgres -d vector_db < /home/karmanov/pg_vector_store/create_new_vector_table.sql
+docker exec -i postgres_vector_db psql -U postgres -d vector_db < create_new_vector_table.sql
 ```
+
+**Note:** Update the path `/home/karmanov/pg_vector_store/` to match your local setup.
+
+### Accessing Mathesar UI
+
+After starting the services, access the Mathesar interface at the URL configured in your `db-ui/.env` file (typically `http://localhost:8000`).
+
+## Environment Variables
+
+This project uses environment variables to manage sensitive configuration data, preventing secrets from being committed to version control.
+
+**Required files:**
+- `.env` - Main database configuration
+- `db-ui/.env` - Mathesar UI configuration
+
+
+## Use Cases
+
+- Vector similarity search for AI/ML embeddings
+- Semantic search infrastructure
+- Recommendation systems
+- Document similarity matching
+- Image/text embedding storage and retrieval
+
+## License
+
+MIT
